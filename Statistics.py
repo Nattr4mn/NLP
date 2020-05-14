@@ -66,9 +66,7 @@ class Statistics:
     def __createDeg(self, graph):
         deg = np.zeros((len(graph)))
         for i in range(len(graph)):
-            for j in range(len(graph[i])):
-                if graph[i][j] > 0:
-                    deg[i] += 1
+            deg[i] = np.count_nonzero(graph[i])
         deg.sort()
         return deg
 
@@ -98,12 +96,9 @@ class Statistics:
 
 
     def __createTheta(self, graph):
-        theta = []
-        for i in range(len(graph) - 1):
-            for j in range(i + 1, len(graph[i])):
-                if graph[i][j] > 0:
-                    theta.append(graph[i][j])
+        theta = graph[np.triu_indices(len(graph), 1)]
         theta.sort()
+        theta = np.extract(theta != 0, theta)
         return theta
 
 
